@@ -1,6 +1,6 @@
 # ASM Annotator v2
 
-A CLI tool for manually labeling geographic points of interest using Google Earth Pro's historical imagery. For each point in a CSV, the tool generates a bounding-box KML, flies Google Earth Pro to that location on a target date, and prompts for a label and confidence score.
+A CLI tool for manually labeling geographic points of interest using Google Earth Pro's historical imagery. For each point in a CSV, the tool generates a bounding-box KML, opens it in Google Earth Pro to fly to that location on a target date, and prompts for a label and confidence score.
 
 ## Requirements
 
@@ -8,9 +8,17 @@ A CLI tool for manually labeling geographic points of interest using Google Eart
 - Python 3.10+ (uses `X | None` syntax)
 - [Google Earth Pro](https://www.google.com/earth/about/versions/) installed as `Google Earth Pro.app`
 
-## Setup
+> **Cross-platform note:** [src/gep_launcher.py](src/gep_launcher.py) shells out to the macOS `open` command to launch Google Earth Pro and hand it each target KML. To run on Linux or Windows, swap those calls for the platform equivalent (`xdg-open` or a direct path to the `google-earth-pro` binary on Linux; `os.startfile()` or `start` on Windows).
 
-One-time setup: load [data/watcher.kml](data/watcher.kml) in Google Earth Pro (double-click it once). It's a `NetworkLink` that auto-refreshes [data/target.kml](data/target.kml), which the annotator rewrites on each iteration.
+## GEP Settings
+
+In Google Earth Pro, open **Preferences > Navigation** and set:
+
+- **Fly-To Speed** → top speed (max)
+- **Mouse Wheel Speed** → medium
+- Check **Do not automatically tilt while zooming**
+
+These keep each fly-to snappy and the view flat, so the bounding box lines up cleanly with the historical imagery.
 
 ## Usage
 
